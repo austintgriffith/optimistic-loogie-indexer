@@ -136,6 +136,9 @@ app.get('/', async (req, res) => {
             <h2>/token/:id</h2>
             <b>returns all metadata for a token</b>
             <p>example: <a href="/token/420" target="_blank">/token/420</a></p>
+            <h2>/balance/:address</h2>
+            <b>returns the balance of an address</b>
+            <p>example: <a href="/balance/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">/balance/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
         </div>
 
         <hr/>
