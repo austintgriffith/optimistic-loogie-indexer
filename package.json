@@ -5,5 +5,13 @@
   "repository": "https://github.com/austintgriffith/optimistic-loogie-indexer.git",
   "author": "Austin Griffith <austin@ethereum.org>",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
+    "ethers": "^5.7.2",
+    "express": "^4.18.2",
+    "fs": "^0.0.1-security",
+    "https": "^1.0.0"
+  }
 }

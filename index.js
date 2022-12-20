@@ -126,17 +126,16 @@ app.get('/token/:id', (req, res) => {
 
 app.get('/', async (req, res) => {
 
-    
     res.send(`<html>    
         <h1>${title}</h1>
 
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#EdEdEd',padding:64}}>
             <h2>/:address</h2>
             <b>returns all tokens owned by an address</b>
-            <p>example: <a href="http://localhost:${port}/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">http://localhost:${port}/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
+            <p>example: <a href="/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
             <h2>/token/:id</h2>
             <b>returns all metadata for a token</b>
-            <p>example: <a href="http://localhost:${port}/token/420" target="_blank">http://localhost:${port}/token/420</a></p>
+            <p>example: <a href="/token/420" target="_blank">/token/420</a></p>
         </div>
 
         <hr/>
@@ -152,6 +151,8 @@ app.get('/', async (req, res) => {
             <p>lastKnownBlock: <b>${lastKnownBlock}</b></p> 
             <p>page requests served:${counter}</p>
         </div>
+
+        <a href="https://github.com/austintgriffith/optimistic-loogie-indexer">view in github</a>
 
     </html>`);
     counter++
@@ -253,7 +254,7 @@ if(!allEvents){
     lastBlockTracked = currentBlock-10
     allEvents = await contract.queryFilter(filter, startBlock, lastBlockTracked);
 
-    console.log("caching",allEvents," events...")
+    console.log("caching",allEvents.length," events...")
     fs.writeFileSync('./cache.json', JSON.stringify(allEvents));
 }
 
