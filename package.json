@@ -1,0 +1,9 @@
+{
+  "name": "optimistic-loogie-indexer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/austintgriffith/optimistic-loogie-indexer.git",
+  "author": "Austin Griffith <austin@ethereum.org>",
+  "license": "MIT",
+  "type": "module"
+}
