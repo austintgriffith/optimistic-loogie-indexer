@@ -98,16 +98,43 @@ let counter=0
 
 app.use(cors());
 
-app.get('/:address', (req, res) => {
-  const address = req.params.address;
-  console.log("/:address",address)
-  const ids = tokensOfAddress[address.toLowerCase()];
-  const tokensMetadata = ids.map(id => ({ id: id, ...tokens[id] }));
-  res.json(tokensMetadata);
-  counter++
+app.get('/loogies', (req, res) => {
+
+    let page = 1;
+    if (req.query.page) {
+        page = req.query.page;
+    }
+    console.log("page: ", page);
+
+    let perPage = 10;
+    if (req.query.perPage) {
+        perPage = req.query.perPage;
+    }
+    console.log("perPage: ", perPage);
+
+    const length = Object.keys(tokens).length;
+    console.log("length: ", length);
+
+    const tokensMetadata = [];
+    let startIndex = length - 1 - perPage * (page - 1);
+    console.log("startIndex: ", startIndex);
+    for (let tokenIndex = startIndex; tokenIndex > startIndex - perPage && tokenIndex >= 0; tokenIndex--) {
+        tokensMetadata.push({ id: tokenIndex, ...tokens[tokenIndex] });
+    }
+    res.json(tokensMetadata);
+    counter++
 });
 
-app.get('/balance/:address', async (req, res) => {
+app.get('/loogies/:address', (req, res) => {
+    const address = req.params.address;
+    console.log("/:address",address)
+    const ids = tokensOfAddress[address.toLowerCase()];
+    const tokensMetadata = ids.map(id => ({ id: id, ...tokens[id] }));
+    res.json(tokensMetadata);
+    counter++
+});
+
+app.get('/loogies/:address/balance', async (req, res) => {
     const address = req.params.address;
     console.log("/balance/:address",address)
     let balance = await contract.balanceOf(address)
@@ -119,12 +146,13 @@ app.get('/balance/:address', async (req, res) => {
     counter++
   });
 
-app.get('/token/:id', (req, res) => {
+app.get('/loogies/token/:id', (req, res) => {
     const id = req.params.id;
     console.log("/token/:id",id)
     res.json(tokens[id]);
     counter++
 });
+
 
 app.get('/', async (req, res) => {
 
@@ -132,15 +160,23 @@ app.get('/', async (req, res) => {
         <h1>${title}</h1>
 
         <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#EdEdEd',padding:64}}>
-            <h2>/:address</h2>
-            <b>returns all tokens owned by an address</b>
-            <p>example: <a href="/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
-            <h2>/token/:id</h2>
+            <h2>/loogies/:address</h2>
+            <b>returns all tokens metadata owned by an address</b>
+            <p>example: <a href="/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
+            <h2>/loogies</h2>
+            <b>returns tokens metadata paginated</b>
+            <ul>Get parameters:
+                <li>page (1)</li>
+                <li>perPage (10)</li>
+            </ul>
+            <p>example: <a href="/loogies" target="_blank">/loogies</a></p>
+            <p>example: <a href="/loogies?page=2&perPage=5" target="_blank">/loogies?page=2&perPage=5</a></p>
+            <h2>/loogies/token/:id</h2>
             <b>returns all metadata for a token</b>
-            <p>example: <a href="/token/420" target="_blank">/token/420</a></p>
-            <h2>/balance/:address</h2>
+            <p>example: <a href="/loogies/token/420" target="_blank">/loogies/token/420</a></p>
+            <h2>/loogies/:address/loogies</h2>
             <b>returns the balance of an address</b>
-            <p>example: <a href="/balance/0x34aA3F359A9D614239015126635CE7732c18fDF3" target="_blank">/balance/0x34aA3F359A9D614239015126635CE7732c18fDF3</a></p>
+            <p>example: <a href="/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3/balance" target="_blank">/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3/balance</a></p>
         </div>
 
         <hr/>
