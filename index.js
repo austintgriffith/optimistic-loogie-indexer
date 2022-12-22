@@ -101,7 +101,9 @@ app.use(cors());
 app.get('/:address', (req, res) => {
   const address = req.params.address;
   console.log("/:address",address)
-  res.json(tokensOfAddress[address.toLowerCase()]);
+  const ids = tokensOfAddress[address.toLowerCase()];
+  const tokensMetadata = ids.map(id => ({ id: id, ...tokens[id] }));
+  res.json(tokensMetadata);
   counter++
 });
 
