@@ -129,7 +129,7 @@ app.get('/loogies/:address', (req, res) => {
     const address = req.params.address;
     console.log("/:address",address)
     const ids = tokensOfAddress[address.toLowerCase()];
-    const tokensMetadata = ids.map(id => ({ id: id, ...tokens[id] }));
+    const tokensMetadata = ids && ids.length > 0 ? ids.map(id => ({ id: id, ...tokens[id] })) : [];
     res.json(tokensMetadata);
     counter++
 });
@@ -174,7 +174,7 @@ app.get('/', async (req, res) => {
             <h2>/loogies/token/:id</h2>
             <b>returns all metadata for a token</b>
             <p>example: <a href="/loogies/token/420" target="_blank">/loogies/token/420</a></p>
-            <h2>/loogies/:address/loogies</h2>
+            <h2>/loogies/:address/balance</h2>
             <b>returns the balance of an address</b>
             <p>example: <a href="/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3/balance" target="_blank">/loogies/0x34aA3F359A9D614239015126635CE7732c18fDF3/balance</a></p>
         </div>
